@@ -66,7 +66,7 @@ class ProgressPainter extends CustomPainter {
 
     var startCapPosition = Offset(
       centerX + radius * cos(startAngle.toRadians()),
-      centerY + 1 + radius * sin(startAngle.toRadians()),
+      centerY + radius * sin(startAngle.toRadians()),
     );
 
     canvas.save();
@@ -82,6 +82,7 @@ class ProgressPainter extends CustomPainter {
     canvas.rotate((-90).toRadians() - rotationRadians);
     // Move the canvas origin back
     canvas.translate(-centerX, -centerY);
+
     canvas.drawArc(
       rect,
       0.toRadians(),
@@ -91,23 +92,34 @@ class ProgressPainter extends CustomPainter {
     );
 
     canvas.drawArc(
-      Rect.fromCenter(
-        center: startCapPosition,
-        width: strokeWidth,
-        height: strokeWidth,
-      ),
-      0,
-      -180.toRadians(),
-      true,
-      Paint()..color = progressColor[colorRangeIndex].first,
-    );
-    canvas.drawArc(
       rect,
       0.toRadians(),
       (startAngle + sweepAngle).toRadians(),
       false,
       paint,
     );
+
+    if (sweepAngle < 360) {
+      canvas.drawArc(
+        Rect.fromCenter(
+          center: startCapPosition,
+          width: strokeWidth,
+          height: strokeWidth,
+        ),
+        0,
+        -180.toRadians(),
+        true,
+        Paint()..color = progressColor[colorRangeIndex].first,
+      );
+      canvas.drawRect(
+        Rect.fromCenter(
+          center: startCapPosition,
+          width: strokeWidth,
+          height: 1,
+        ),
+        Paint()..color = progressColor[colorRangeIndex].first,
+      );
+    }
 
     canvas.translate(centerX, centerY);
     if (sweepAngle < 360) {
@@ -117,7 +129,7 @@ class ProgressPainter extends CustomPainter {
     //0.1 is because the angle calculation is not accurate enough, so we need to go back a little bit.
     var endCapPosition = Offset(
       centerX + radius * cos((startAngle).toRadians()),
-      centerY - 1 + radius * sin((startAngle).toRadians()),
+      centerY + radius * sin((startAngle).toRadians()),
     );
 
     canvas.translate(-centerX, -centerY);
@@ -155,6 +167,14 @@ class ProgressPainter extends CustomPainter {
       0,
       180.toRadians(),
       true,
+      Paint()..color = endColor,
+    );
+    canvas.drawRect(
+      Rect.fromCenter(
+        center: endCapPosition,
+        width: strokeWidth,
+        height: 1,
+      ),
       Paint()..color = endColor,
     );
 
