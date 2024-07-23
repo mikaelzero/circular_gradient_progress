@@ -66,7 +66,7 @@ class ProgressPainter extends CustomPainter {
 
     var startCapPosition = Offset(
       centerX + radius * cos(startAngle.toRadians()),
-      centerY + 0.5 + radius * sin(startAngle.toRadians()),
+      centerY + 1 + radius * sin(startAngle.toRadians()),
     );
 
     canvas.save();
@@ -117,7 +117,7 @@ class ProgressPainter extends CustomPainter {
     //0.1 is because the angle calculation is not accurate enough, so we need to go back a little bit.
     var endCapPosition = Offset(
       centerX + radius * cos((startAngle).toRadians()),
-      centerY - 0.5 + radius * sin((startAngle).toRadians()),
+      centerY - 1 + radius * sin((startAngle).toRadians()),
     );
 
     canvas.translate(-centerX, -centerY);
