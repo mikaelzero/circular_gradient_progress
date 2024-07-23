@@ -1,6 +1,6 @@
 name: circular_gradient_progress
 description: "A Circular Progress similar to Apple's Health app"
-version: 1.0.3
+version: 1.1.0
 homepage: https://github.com/mikaelzero/circular_gradient_progress
 
 environment:

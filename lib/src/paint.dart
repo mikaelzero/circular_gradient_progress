@@ -91,14 +91,6 @@ class ProgressPainter extends CustomPainter {
       backgroundPaint,
     );
 
-    canvas.drawArc(
-      rect,
-      0.toRadians(),
-      (startAngle + sweepAngle).toRadians(),
-      false,
-      paint,
-    );
-
     if (sweepAngle < 360) {
       canvas.drawArc(
         Rect.fromCenter(
@@ -109,15 +101,24 @@ class ProgressPainter extends CustomPainter {
         0,
         -180.toRadians(),
         true,
-        Paint()..color = progressColor[colorRangeIndex].first,
+        Paint()..color = progressColor[0].first,
       );
+    }
+    canvas.drawArc(
+      rect,
+      0.toRadians(),
+      (startAngle + sweepAngle).toRadians(),
+      false,
+      paint,
+    );
+    if (sweepAngle < 360) {
       canvas.drawRect(
         Rect.fromCenter(
           center: startCapPosition,
           width: strokeWidth,
           height: 1,
         ),
-        Paint()..color = progressColor[colorRangeIndex].first,
+        Paint()..color = progressColor[0].first,
       );
     }
 
