@@ -1,3 +1,7 @@
+## 1.1.3
+
+* add default status
+
 ## 1.1.2
 
 * add reverse

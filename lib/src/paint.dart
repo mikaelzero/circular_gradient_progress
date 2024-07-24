@@ -51,7 +51,7 @@ class ProgressPainter extends CustomPainter {
     var shader = SweepGradient(
       startAngle: startAngle.toRadians(),
       endAngle: 360.toRadians(),
-      colors: progressColor[colorRangeIndex].reversed.toList(),
+      colors: reverse ? progressColor[colorRangeIndex].reversed.toList() : progressColor[colorRangeIndex],
     ).createShader(rect);
 
     var paint = Paint()
@@ -71,20 +71,6 @@ class ProgressPainter extends CustomPainter {
       centerY + radius * sin(startAngle.toRadians()),
     );
 
-    canvas.save();
-    // Move the canvas origin to the center
-    canvas.translate(centerX, centerY);
-    double rotationAngle = 0;
-
-    if (sweepAngle > 360) {
-      rotationAngle = 360 - sweepAngle;
-    }
-    double rotationRadians = reverse ? -rotationAngle.toRadians() : rotationAngle.toRadians();
-    // Rotate the canvas
-    canvas.rotate((-90).toRadians() - rotationRadians);
-    // Move the canvas origin back
-    canvas.translate(-centerX, -centerY);
-
     canvas.drawArc(
       rect,
       0.toRadians(),
@@ -92,98 +78,113 @@ class ProgressPainter extends CustomPainter {
       false,
       backgroundPaint,
     );
+    if (sweepAngle >= 0) {
+      canvas.save();
+      // Move the canvas origin to the center
+      canvas.translate(centerX, centerY);
+      double rotationAngle = 0;
 
-    if (sweepAngle < 360) {
+      if (sweepAngle > 360) {
+        rotationAngle = 360 - sweepAngle;
+      }
+      double rotationRadians = reverse ? -rotationAngle.toRadians() : rotationAngle.toRadians();
+      // Rotate the canvas
+      canvas.rotate((-90).toRadians() - rotationRadians);
+      // Move the canvas origin back
+      canvas.translate(-centerX, -centerY);
+
+      if (sweepAngle < 360) {
+        canvas.drawArc(
+          Rect.fromCenter(
+            center: startCapPosition,
+            width: strokeWidth,
+            height: strokeWidth,
+          ),
+          0,
+          reverse ? 180.toRadians() : -180.toRadians(),
+          true,
+          Paint()..color = progressColor[0].first,
+        );
+      }
+      canvas.drawArc(
+        rect,
+        0.toRadians(),
+        reverse ? -(startAngle + sweepAngle).toRadians() : (startAngle + sweepAngle).toRadians(),
+        false,
+        paint,
+      );
+      if (sweepAngle < 360) {
+        canvas.drawRect(
+          Rect.fromCenter(
+            center: startCapPosition,
+            width: strokeWidth,
+            height: 1,
+          ),
+          Paint()..color = progressColor[0].first,
+        );
+      }
+
+      canvas.translate(centerX, centerY);
+      if (sweepAngle < 360) {
+        final endCapRotate = 360 - sweepAngle;
+        canvas.rotate(reverse ? endCapRotate.toRadians() : -endCapRotate.toRadians());
+      }
+      //0.1 is because the angle calculation is not accurate enough, so we need to go back a little bit.
+      var endCapPosition = Offset(
+        centerX + radius * cos((startAngle).toRadians()),
+        centerY + radius * sin((startAngle).toRadians()),
+      );
+
+      canvas.translate(-centerX, -centerY);
+      final endColor = getColorAtAngle(sweepAngle, progressColor[colorRangeIndex]);
+      if (sweepAngle > 355) {
+        //Draw arc shadow
+        var shadowPosition = Offset(
+          centerX + radius * cos((startAngle).toRadians()),
+          centerY + (reverse ? -5 : 5) + radius * sin((startAngle).toRadians()),
+        );
+        final Paint shadowPaint = Paint()
+          ..color = Colors.black.withOpacity(0.2)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = strokeWidth / 2
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3);
+        final Path path = Path()
+          ..addArc(
+            Rect.fromCenter(
+              center: shadowPosition,
+              width: strokeWidth / 2,
+              height: strokeWidth / 2,
+            ),
+            0,
+            reverse ? -pi : pi,
+          );
+        canvas.drawPath(path, shadowPaint);
+      }
+
+      //Draw the ending arc
       canvas.drawArc(
         Rect.fromCenter(
-          center: startCapPosition,
+          center: endCapPosition,
           width: strokeWidth,
           height: strokeWidth,
         ),
         0,
-        reverse ? 180.toRadians() : -180.toRadians(),
+        reverse ? -180.toRadians() : 180.toRadians(),
         true,
-        Paint()..color = progressColor[0].first,
+        Paint()..color = endColor,
       );
-    }
-    canvas.drawArc(
-      rect,
-      0.toRadians(),
-      reverse ? -(startAngle + sweepAngle).toRadians() : (startAngle + sweepAngle).toRadians(),
-      false,
-      paint,
-    );
-    if (sweepAngle < 360) {
       canvas.drawRect(
         Rect.fromCenter(
-          center: startCapPosition,
+          center: endCapPosition,
           width: strokeWidth,
           height: 1,
         ),
-        Paint()..color = progressColor[0].first,
+        Paint()..color = endColor,
       );
+
+      // // Restore the canvas to the saved state
+      canvas.restore();
     }
-
-    canvas.translate(centerX, centerY);
-    if (sweepAngle < 360) {
-      final endCapRotate = 360 - sweepAngle;
-      canvas.rotate(reverse ? endCapRotate.toRadians() : -endCapRotate.toRadians());
-    }
-    //0.1 is because the angle calculation is not accurate enough, so we need to go back a little bit.
-    var endCapPosition = Offset(
-      centerX + radius * cos((startAngle).toRadians()),
-      centerY + radius * sin((startAngle).toRadians()),
-    );
-
-    canvas.translate(-centerX, -centerY);
-    final endColor = getColorAtAngle(sweepAngle, progressColor[colorRangeIndex]);
-    if (sweepAngle > 355) {
-      //Draw arc shadow
-      var shadowPosition = Offset(
-        centerX + radius * cos((startAngle).toRadians()),
-        centerY + (reverse ? -5 : 5) + radius * sin((startAngle).toRadians()),
-      );
-      final Paint shadowPaint = Paint()
-        ..color = Colors.black.withOpacity(0.2)
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = strokeWidth / 2
-        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3);
-      final Path path = Path()
-        ..addArc(
-          Rect.fromCenter(
-            center: shadowPosition,
-            width: strokeWidth / 2,
-            height: strokeWidth / 2,
-          ),
-          0,
-          reverse ? -pi : pi,
-        );
-      canvas.drawPath(path, shadowPaint);
-    }
-
-    //Draw the ending arc
-    canvas.drawArc(
-      Rect.fromCenter(
-        center: endCapPosition,
-        width: strokeWidth,
-        height: strokeWidth,
-      ),
-      0,
-      reverse ? -180.toRadians() : 180.toRadians(),
-      true,
-      Paint()..color = endColor,
-    );
-    canvas.drawRect(
-      Rect.fromCenter(
-        center: endCapPosition,
-        width: strokeWidth,
-        height: 1,
-      ),
-      Paint()..color = endColor,
-    );
-
-    // // Restore the canvas to the saved state
-    canvas.restore();
   }
 
   @override

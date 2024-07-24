@@ -53,15 +53,20 @@ class _CircularGradientProgressWidgetState extends State<CircularGradientProgres
   late AnimationController _controller;
   late Animation<double> _animation;
   double sweepAngle = 0;
+  double initAngle = 0;
 
   @override
   void initState() {
     super.initState();
+    initAngle = widget.initAngle;
+    if (widget.sweepAngle < 0) {
+      initAngle = -1;
+    }
     _controller = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: widget.duration),
     );
-    _updateAnimation(widget.sweepAngle, widget.initAngle);
+    _updateAnimation(widget.sweepAngle, initAngle);
   }
 
   @override
@@ -73,6 +78,12 @@ class _CircularGradientProgressWidgetState extends State<CircularGradientProgres
   }
 
   void _updateAnimation(double newSweepAngle, double oldSweepAngle) {
+    if (widget.sweepAngle < 0) {
+      setState(() {
+        sweepAngle = -1;
+      });
+      return;
+    }
     final double angleDifference = (newSweepAngle - oldSweepAngle).abs();
     int baseDurationMillis = widget.duration;
 
@@ -132,7 +143,7 @@ class _CircularGradientProgressWidgetState extends State<CircularGradientProgres
         progressColor: progressColors,
         strokeWidth: widget.strokeWidth,
         backgroundColor: widget.backgroundColor,
-        reverse:widget.reverse,
+        reverse: widget.reverse,
       ),
       size: Size(
         widget.size,

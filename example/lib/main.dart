@@ -57,7 +57,7 @@ class _PaintAppState extends State<PaintApp> {
                     size: 120,
                     duration: duration,
                     centerCircleSizeRatio: 0.3,
-                    sweepAngles: const [400, 70, 100],
+                    sweepAngles: const [-1, -1, -1],
                     backgroundColors: backgroundColors,
                     gradientColors: gradientColors,
                   ),
