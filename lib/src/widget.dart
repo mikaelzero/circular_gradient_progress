@@ -25,6 +25,7 @@ class CircularGradientProgressWidget extends StatefulWidget {
   // This value represents how much animation time needs to be increased for each 360 degrees after exceeding 360 degrees.
   final int plusDuration;
   final Curve curve;
+  final bool reverse;
 
   const CircularGradientProgressWidget({
     super.key,
@@ -41,6 +42,7 @@ class CircularGradientProgressWidget extends StatefulWidget {
     this.plusDuration = 500,
     this.curve = Curves.easeInOutQuad,
     this.initAngle = 0,
+    this.reverse = false,
   });
 
   @override
@@ -130,6 +132,7 @@ class _CircularGradientProgressWidgetState extends State<CircularGradientProgres
         progressColor: progressColors,
         strokeWidth: widget.strokeWidth,
         backgroundColor: widget.backgroundColor,
+        reverse:widget.reverse,
       ),
       size: Size(
         widget.size,

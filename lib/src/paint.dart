@@ -22,7 +22,7 @@ class ProgressPainter extends CustomPainter {
   ProgressPainter({
     this.sweepAngle = 360,
     this.strokeWidth = 20,
-    this.reverse = true,
+    this.reverse = false,
     required this.progressColor,
     required this.backgroundColor,
   });

@@ -21,6 +21,7 @@ class CircularGradientCombineWidget extends StatefulWidget {
   final int plusDuration;
   final Curve curve;
   final double initAngle;
+  final bool reverse;
 
   const CircularGradientCombineWidget({
     super.key,
@@ -38,6 +39,7 @@ class CircularGradientCombineWidget extends StatefulWidget {
     this.plusDuration = 500,
     this.curve = Curves.easeInOutQuad,
     this.initAngle = 0,
+    this.reverse = false,
   });
 
   @override
@@ -75,6 +77,7 @@ class _CircularGradientCombineWidgetState extends State<CircularGradientCombineW
           size: widget.size - strokeWidth * index - gap * index,
           strokeWidth: strokeWidth / 2,
           backgroundColor: index > widget.backgroundColors.length - 1 ? widget.backgroundColors.last : widget.backgroundColors[index],
+          reverse: widget.reverse,
         );
       }),
     );
