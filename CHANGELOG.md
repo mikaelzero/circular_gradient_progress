@@ -1,3 +1,7 @@
+## 1.1.4
+
+* add -1 notify
+
 ## 1.1.3
 
 * add default status

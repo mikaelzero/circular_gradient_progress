@@ -78,7 +78,7 @@ class _CircularGradientProgressWidgetState extends State<CircularGradientProgres
   }
 
   void _updateAnimation(double newSweepAngle, double oldSweepAngle) {
-    if (widget.sweepAngle < 0) {
+    if (widget.sweepAngle < 0 || newSweepAngle < 0) {
       setState(() {
         sweepAngle = -1;
       });
