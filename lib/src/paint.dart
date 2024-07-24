@@ -17,10 +17,12 @@ class ProgressPainter extends CustomPainter {
   final double strokeWidth;
   final List<List<Color>> progressColor;
   final Color backgroundColor;
+  final bool reverse;
 
   ProgressPainter({
     this.sweepAngle = 360,
     this.strokeWidth = 20,
+    this.reverse = true,
     required this.progressColor,
     required this.backgroundColor,
   });
@@ -49,7 +51,7 @@ class ProgressPainter extends CustomPainter {
     var shader = SweepGradient(
       startAngle: startAngle.toRadians(),
       endAngle: 360.toRadians(),
-      colors: progressColor[colorRangeIndex],
+      colors: progressColor[colorRangeIndex].reversed.toList(),
     ).createShader(rect);
 
     var paint = Paint()
@@ -77,7 +79,7 @@ class ProgressPainter extends CustomPainter {
     if (sweepAngle > 360) {
       rotationAngle = 360 - sweepAngle;
     }
-    double rotationRadians = rotationAngle.toRadians();
+    double rotationRadians = reverse ? -rotationAngle.toRadians() : rotationAngle.toRadians();
     // Rotate the canvas
     canvas.rotate((-90).toRadians() - rotationRadians);
     // Move the canvas origin back
@@ -99,7 +101,7 @@ class ProgressPainter extends CustomPainter {
           height: strokeWidth,
         ),
         0,
-        -180.toRadians(),
+        reverse ? 180.toRadians() : -180.toRadians(),
         true,
         Paint()..color = progressColor[0].first,
       );
@@ -107,7 +109,7 @@ class ProgressPainter extends CustomPainter {
     canvas.drawArc(
       rect,
       0.toRadians(),
-      (startAngle + sweepAngle).toRadians(),
+      reverse ? -(startAngle + sweepAngle).toRadians() : (startAngle + sweepAngle).toRadians(),
       false,
       paint,
     );
@@ -125,7 +127,7 @@ class ProgressPainter extends CustomPainter {
     canvas.translate(centerX, centerY);
     if (sweepAngle < 360) {
       final endCapRotate = 360 - sweepAngle;
-      canvas.rotate(-endCapRotate.toRadians());
+      canvas.rotate(reverse ? endCapRotate.toRadians() : -endCapRotate.toRadians());
     }
     //0.1 is because the angle calculation is not accurate enough, so we need to go back a little bit.
     var endCapPosition = Offset(
@@ -139,7 +141,7 @@ class ProgressPainter extends CustomPainter {
       //Draw arc shadow
       var shadowPosition = Offset(
         centerX + radius * cos((startAngle).toRadians()),
-        centerY + 5 + radius * sin((startAngle).toRadians()),
+        centerY + (reverse ? -5 : 5) + radius * sin((startAngle).toRadians()),
       );
       final Paint shadowPaint = Paint()
         ..color = Colors.black.withOpacity(0.2)
@@ -148,13 +150,14 @@ class ProgressPainter extends CustomPainter {
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3);
       final Path path = Path()
         ..addArc(
-            Rect.fromCenter(
-              center: shadowPosition,
-              width: strokeWidth / 2,
-              height: strokeWidth / 2,
-            ),
-            0,
-            pi);
+          Rect.fromCenter(
+            center: shadowPosition,
+            width: strokeWidth / 2,
+            height: strokeWidth / 2,
+          ),
+          0,
+          reverse ? -pi : pi,
+        );
       canvas.drawPath(path, shadowPaint);
     }
 
@@ -166,7 +169,7 @@ class ProgressPainter extends CustomPainter {
         height: strokeWidth,
       ),
       0,
-      180.toRadians(),
+      reverse ? -180.toRadians() : 180.toRadians(),
       true,
       Paint()..color = endColor,
     );

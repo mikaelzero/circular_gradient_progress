@@ -13,6 +13,5 @@
  ),
 ```
 
-![](https://github.com/mikaelzero/circular_gradient_progress/blob/main/circular_gradient_progress.png?raw=true)
-
-![](https://github.com/mikaelzero/circular_gradient_progress/blob/main/circular_gradient_progress.gif?raw=true)
+<img src="https://github.com/mikaelzero/circular_gradient_progress/blob/main/circular_gradient_progress.png?raw=true" width="200">
+<img src="https://github.com/mikaelzero/circular_gradient_progress/blob/main/circular_gradient_progress.gif?raw=true" width="200">
