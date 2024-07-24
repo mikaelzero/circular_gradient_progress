@@ -1,3 +1,7 @@
+## 1.1.5
+
+* mod min dart sdk
+
 ## 1.1.4
 
 * add -1 notify
