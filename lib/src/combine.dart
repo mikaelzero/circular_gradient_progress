@@ -43,10 +43,13 @@ class CircularGradientCombineWidget extends StatefulWidget {
   });
 
   @override
-  State<CircularGradientCombineWidget> createState() => _CircularGradientCombineWidgetState();
+  State<CircularGradientCombineWidget> createState() =>
+      _CircularGradientCombineWidgetState();
 }
 
-class _CircularGradientCombineWidgetState extends State<CircularGradientCombineWidget> with SingleTickerProviderStateMixin {
+class _CircularGradientCombineWidgetState
+    extends State<CircularGradientCombineWidget>
+    with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
@@ -56,7 +59,10 @@ class _CircularGradientCombineWidgetState extends State<CircularGradientCombineW
   Widget build(BuildContext context) {
     final centerCircleSize = widget.size * widget.centerCircleSizeRatio;
     final gap = widget.size * widget.gapRatio;
-    var strokeWidth = (widget.size - (widget.sweepAngles.length - 1) * gap - centerCircleSize) / widget.sweepAngles.length;
+    var strokeWidth = (widget.size -
+            (widget.sweepAngles.length - 1) * gap -
+            centerCircleSize) /
+        widget.sweepAngles.length;
     if (strokeWidth > widget.size / 3) {
       strokeWidth = widget.size / 3;
     }
@@ -76,7 +82,9 @@ class _CircularGradientCombineWidgetState extends State<CircularGradientCombineW
           sweepAngle: widget.sweepAngles[index],
           size: widget.size - strokeWidth * index - gap * index,
           strokeWidth: strokeWidth / 2,
-          backgroundColor: index > widget.backgroundColors.length - 1 ? widget.backgroundColors.last : widget.backgroundColors[index],
+          backgroundColor: index > widget.backgroundColors.length - 1
+              ? widget.backgroundColors.last
+              : widget.backgroundColors[index],
           reverse: widget.reverse,
         );
       }),

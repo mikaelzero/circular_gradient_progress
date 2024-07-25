@@ -1,3 +1,7 @@
+## 1.1.6
+
+* improve score
+
 ## 1.1.5
 
 * mod min dart sdk

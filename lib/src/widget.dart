@@ -46,10 +46,13 @@ class CircularGradientProgressWidget extends StatefulWidget {
   });
 
   @override
-  State<CircularGradientProgressWidget> createState() => _CircularGradientProgressWidgetState();
+  State<CircularGradientProgressWidget> createState() =>
+      _CircularGradientProgressWidgetState();
 }
 
-class _CircularGradientProgressWidgetState extends State<CircularGradientProgressWidget> with SingleTickerProviderStateMixin {
+class _CircularGradientProgressWidgetState
+    extends State<CircularGradientProgressWidget>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
   double sweepAngle = 0;
@@ -101,16 +104,17 @@ class _CircularGradientProgressWidgetState extends State<CircularGradientProgres
       _controller.duration = Duration.zero;
     }
 
-    _animation = Tween<double>(begin: oldSweepAngle, end: newSweepAngle).animate(
+    _animation =
+        Tween<double>(begin: oldSweepAngle, end: newSweepAngle).animate(
       CurvedAnimation(
         parent: _controller,
         curve: widget.curve,
       ),
     )..addListener(() {
-        setState(() {
-          sweepAngle = _animation.value;
-        });
-      });
+            setState(() {
+              sweepAngle = _animation.value;
+            });
+          });
     _controller.forward(from: 0);
   }
 
@@ -120,14 +124,16 @@ class _CircularGradientProgressWidgetState extends State<CircularGradientProgres
     super.dispose();
   }
 
-  List<List<Color>> generateColorArray(List<Color> colorList, double totalAngle) {
+  List<List<Color>> generateColorArray(
+      List<Color> colorList, double totalAngle) {
     final baseColorStart = colorList[0];
     final baseColorEnd = colorList[1];
     List<List<Color>> colors = [];
     int fullRotations = (totalAngle / 360).floor();
     colors.add([baseColorStart, baseColorEnd]);
     for (int i = 1; i <= fullRotations; i++) {
-      double t = min(i * widget.interpolatedColorRatio, widget.maxInterpolatedColorRatio);
+      double t = min(
+          i * widget.interpolatedColorRatio, widget.maxInterpolatedColorRatio);
       colors.add([Color.lerp(baseColorStart, baseColorEnd, t)!, baseColorEnd]);
     }
 
@@ -136,7 +142,8 @@ class _CircularGradientProgressWidgetState extends State<CircularGradientProgres
 
   @override
   Widget build(BuildContext context) {
-    final progressColors = generateColorArray(widget.gradientColors, widget.interpolatedColor ? sweepAngle : 0);
+    final progressColors = generateColorArray(
+        widget.gradientColors, widget.interpolatedColor ? sweepAngle : 0);
     return CustomPaint(
       painter: ProgressPainter(
         sweepAngle: sweepAngle,

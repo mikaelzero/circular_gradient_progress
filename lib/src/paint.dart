@@ -51,7 +51,9 @@ class ProgressPainter extends CustomPainter {
     var shader = SweepGradient(
       startAngle: startAngle.toRadians(),
       endAngle: 360.toRadians(),
-      colors: reverse ? progressColor[colorRangeIndex].reversed.toList() : progressColor[colorRangeIndex],
+      colors: reverse
+          ? progressColor[colorRangeIndex].reversed.toList()
+          : progressColor[colorRangeIndex],
     ).createShader(rect);
 
     var paint = Paint()
@@ -87,7 +89,8 @@ class ProgressPainter extends CustomPainter {
       if (sweepAngle > 360) {
         rotationAngle = 360 - sweepAngle;
       }
-      double rotationRadians = reverse ? -rotationAngle.toRadians() : rotationAngle.toRadians();
+      double rotationRadians =
+          reverse ? -rotationAngle.toRadians() : rotationAngle.toRadians();
       // Rotate the canvas
       canvas.rotate((-90).toRadians() - rotationRadians);
       // Move the canvas origin back
@@ -109,7 +112,9 @@ class ProgressPainter extends CustomPainter {
       canvas.drawArc(
         rect,
         0.toRadians(),
-        reverse ? -(startAngle + sweepAngle).toRadians() : (startAngle + sweepAngle).toRadians(),
+        reverse
+            ? -(startAngle + sweepAngle).toRadians()
+            : (startAngle + sweepAngle).toRadians(),
         false,
         paint,
       );
@@ -127,7 +132,8 @@ class ProgressPainter extends CustomPainter {
       canvas.translate(centerX, centerY);
       if (sweepAngle < 360) {
         final endCapRotate = 360 - sweepAngle;
-        canvas.rotate(reverse ? endCapRotate.toRadians() : -endCapRotate.toRadians());
+        canvas.rotate(
+            reverse ? endCapRotate.toRadians() : -endCapRotate.toRadians());
       }
       //0.1 is because the angle calculation is not accurate enough, so we need to go back a little bit.
       var endCapPosition = Offset(
@@ -136,7 +142,8 @@ class ProgressPainter extends CustomPainter {
       );
 
       canvas.translate(-centerX, -centerY);
-      final endColor = getColorAtAngle(sweepAngle, progressColor[colorRangeIndex]);
+      final endColor =
+          getColorAtAngle(sweepAngle, progressColor[colorRangeIndex]);
       if (sweepAngle > 355) {
         //Draw arc shadow
         var shadowPosition = Offset(

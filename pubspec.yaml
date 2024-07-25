@@ -1,6 +1,6 @@
 name: circular_gradient_progress
-description: "A Circular Progress similar to Apple's Health app"
-version: 1.1.5
+description: "A circular progress bar similar to Apple's Health app. You can set a single ring or multiple rings together, and it provides a default state and more custom properties."
+version: 1.1.6
 homepage: https://github.com/mikaelzero/circular_gradient_progress
 
 environment:
@@ -15,11 +15,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.6
 
 dev_dependencies:
   flutter_test:

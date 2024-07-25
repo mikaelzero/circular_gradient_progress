@@ -30,7 +30,6 @@ class PaintApp extends StatefulWidget {
 }
 
 class _PaintAppState extends State<PaintApp> {
-  
   @override
   Widget build(BuildContext context) {
     final backgroundColors = [
