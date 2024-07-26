@@ -42,7 +42,7 @@ class _PaintAppState extends State<PaintApp> {
       [Color(0xff3BDD00), Color(0xffB6FE02)],
       [Color(0xff02BBE1), Color(0xff00FCD0)],
     ];
-    const duration = 3000;
+    const duration = Duration(seconds: 3);
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(

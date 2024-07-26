@@ -1,3 +1,7 @@
+## 1.1.8
+
+* mod duration type
+
 ## 1.1.7
 
 * add maxDration

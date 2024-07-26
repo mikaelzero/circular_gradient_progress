@@ -28,12 +28,13 @@ class CircularGradientProgressWidget extends StatefulWidget {
   final double maxInterpolatedColorRatio;
 
   /// base duration
-  final int duration;
+  final Duration duration;
 
   /// This value represents how much animation time needs to be increased for each 360 degrees after exceeding 360 degrees.
-  final int plusDuration;
+  final Duration plusDuration;
+
   /// max duration
-  final int maxDration;
+  final Duration maxDration;
 
   /// animation behavier
   final Curve curve;
@@ -53,12 +54,12 @@ class CircularGradientProgressWidget extends StatefulWidget {
     this.interpolatedColor = true,
     this.interpolatedColorRatio = 0.1,
     this.maxInterpolatedColorRatio = 0.7,
-    this.duration = 1500,
-    this.plusDuration = 500,
+    this.duration = const Duration(milliseconds: 1500),
+    this.plusDuration = const Duration(milliseconds: 500),
     this.curve = Curves.easeInOutQuad,
     this.initAngle = 0,
     this.reverse = false,
-    this.maxDration = 0,
+    this.maxDration = Duration.zero,
   });
 
   @override
@@ -80,7 +81,7 @@ class _CircularGradientProgressWidgetState extends State<CircularGradientProgres
     }
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: widget.duration),
+      duration: widget.duration,
     );
     _updateAnimation(widget.sweepAngle, initAngle);
   }
@@ -101,7 +102,7 @@ class _CircularGradientProgressWidgetState extends State<CircularGradientProgres
       return;
     }
     final double angleDifference = (newSweepAngle - oldSweepAngle).abs();
-    int baseDurationMillis = widget.duration;
+    int baseDurationMillis = widget.duration.inMilliseconds;
 
     int totalDuration = 0;
     if (angleDifference <= 360 && oldSweepAngle != 0) {
@@ -109,11 +110,11 @@ class _CircularGradientProgressWidgetState extends State<CircularGradientProgres
     } else {
       totalDuration = baseDurationMillis;
       int full360Intervals = (angleDifference / 360).floor();
-      totalDuration += full360Intervals * widget.plusDuration;
+      totalDuration += full360Intervals * widget.plusDuration.inMilliseconds;
     }
     if (widget.animate) {
-      if (widget.maxDration != 0 && totalDuration > widget.maxDration) {
-        _controller.duration = Duration(milliseconds: widget.maxDration);
+      if (widget.maxDration.inMilliseconds != 0 && totalDuration > widget.maxDration.inMilliseconds) {
+        _controller.duration = Duration(milliseconds: widget.maxDration.inMilliseconds);
       } else {
         _controller.duration = Duration(milliseconds: totalDuration);
       }

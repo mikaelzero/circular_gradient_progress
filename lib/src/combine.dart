@@ -16,13 +16,13 @@ class CircularGradientCombineWidget extends StatefulWidget {
   //When the change reaches a certain percentage, the color will be the same as the last color,
   //so it needs to be limited, otherwise a circular_gradient_progress with the same color will appear instead of a gradient color.
   final double maxInterpolatedColorRatio;
-  final int duration;
+  final Duration duration;
   // This value represents how much animation time needs to be increased for each 360 degrees after exceeding 360 degrees.
-  final int plusDuration;
+  final Duration plusDuration;
   final Curve curve;
   final double initAngle;
   final bool reverse;
-  final int maxDration;
+  final Duration maxDration;
 
   const CircularGradientCombineWidget({
     super.key,
@@ -36,22 +36,19 @@ class CircularGradientCombineWidget extends StatefulWidget {
     this.interpolatedColor = true,
     this.interpolatedColorRatio = 0.1,
     this.maxInterpolatedColorRatio = 0.7,
-    this.duration = 1500,
-    this.plusDuration = 500,
+    this.duration = const Duration(milliseconds: 1500),
+    this.plusDuration = const Duration(milliseconds: 500),
     this.curve = Curves.easeInOutQuad,
     this.initAngle = 0,
     this.reverse = false,
-    this.maxDration = 0,
+    this.maxDration = Duration.zero,
   });
 
   @override
-  State<CircularGradientCombineWidget> createState() =>
-      _CircularGradientCombineWidgetState();
+  State<CircularGradientCombineWidget> createState() => _CircularGradientCombineWidgetState();
 }
 
-class _CircularGradientCombineWidgetState
-    extends State<CircularGradientCombineWidget>
-    with SingleTickerProviderStateMixin {
+class _CircularGradientCombineWidgetState extends State<CircularGradientCombineWidget> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
@@ -61,10 +58,7 @@ class _CircularGradientCombineWidgetState
   Widget build(BuildContext context) {
     final centerCircleSize = widget.size * widget.centerCircleSizeRatio;
     final gap = widget.size * widget.gapRatio;
-    var strokeWidth = (widget.size -
-            (widget.sweepAngles.length - 1) * gap -
-            centerCircleSize) /
-        widget.sweepAngles.length;
+    var strokeWidth = (widget.size - (widget.sweepAngles.length - 1) * gap - centerCircleSize) / widget.sweepAngles.length;
     if (strokeWidth > widget.size / 3) {
       strokeWidth = widget.size / 3;
     }
@@ -84,9 +78,7 @@ class _CircularGradientCombineWidgetState
           sweepAngle: widget.sweepAngles[index],
           size: widget.size - strokeWidth * index - gap * index,
           strokeWidth: strokeWidth / 2,
-          backgroundColor: index > widget.backgroundColors.length - 1
-              ? widget.backgroundColors.last
-              : widget.backgroundColors[index],
+          backgroundColor: index > widget.backgroundColors.length - 1 ? widget.backgroundColors.last : widget.backgroundColors[index],
           reverse: widget.reverse,
           maxDration: widget.maxDration,
         );
