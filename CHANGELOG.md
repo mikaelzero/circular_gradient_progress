@@ -1,3 +1,7 @@
+## 1.1.7
+
+* add maxDration
+
 ## 1.1.6
 
 * improve score

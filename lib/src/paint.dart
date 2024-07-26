@@ -2,23 +2,37 @@ import 'dart:math' show cos, min, pi, sin;
 
 import 'package:flutter/material.dart';
 
+/// convert
 extension NumToRadians on num {
+  /// toRadians
   double toRadians() {
     return toDouble() * (pi / 180.0);
   }
 
+  /// toDegree
   double toDegree() {
     return toDouble() * (180 / pi);
   }
 }
 
+/// painter for progress
 class ProgressPainter extends CustomPainter {
+  ///0 to max
   final double sweepAngle;
+
+  /// circle stroke width
   final double strokeWidth;
+
+  /// multi color
   final List<List<Color>> progressColor;
+
+  /// base  background color
   final Color backgroundColor;
+
+  /// reverse
   final bool reverse;
 
+  /// painter for progress
   ProgressPainter({
     this.sweepAngle = 360,
     this.strokeWidth = 20,
@@ -51,9 +65,7 @@ class ProgressPainter extends CustomPainter {
     var shader = SweepGradient(
       startAngle: startAngle.toRadians(),
       endAngle: 360.toRadians(),
-      colors: reverse
-          ? progressColor[colorRangeIndex].reversed.toList()
-          : progressColor[colorRangeIndex],
+      colors: reverse ? progressColor[colorRangeIndex].reversed.toList() : progressColor[colorRangeIndex],
     ).createShader(rect);
 
     var paint = Paint()
@@ -89,8 +101,7 @@ class ProgressPainter extends CustomPainter {
       if (sweepAngle > 360) {
         rotationAngle = 360 - sweepAngle;
       }
-      double rotationRadians =
-          reverse ? -rotationAngle.toRadians() : rotationAngle.toRadians();
+      double rotationRadians = reverse ? -rotationAngle.toRadians() : rotationAngle.toRadians();
       // Rotate the canvas
       canvas.rotate((-90).toRadians() - rotationRadians);
       // Move the canvas origin back
@@ -112,9 +123,7 @@ class ProgressPainter extends CustomPainter {
       canvas.drawArc(
         rect,
         0.toRadians(),
-        reverse
-            ? -(startAngle + sweepAngle).toRadians()
-            : (startAngle + sweepAngle).toRadians(),
+        reverse ? -(startAngle + sweepAngle).toRadians() : (startAngle + sweepAngle).toRadians(),
         false,
         paint,
       );
@@ -132,8 +141,7 @@ class ProgressPainter extends CustomPainter {
       canvas.translate(centerX, centerY);
       if (sweepAngle < 360) {
         final endCapRotate = 360 - sweepAngle;
-        canvas.rotate(
-            reverse ? endCapRotate.toRadians() : -endCapRotate.toRadians());
+        canvas.rotate(reverse ? endCapRotate.toRadians() : -endCapRotate.toRadians());
       }
       //0.1 is because the angle calculation is not accurate enough, so we need to go back a little bit.
       var endCapPosition = Offset(
@@ -142,8 +150,7 @@ class ProgressPainter extends CustomPainter {
       );
 
       canvas.translate(-centerX, -centerY);
-      final endColor =
-          getColorAtAngle(sweepAngle, progressColor[colorRangeIndex]);
+      final endColor = getColorAtAngle(sweepAngle, progressColor[colorRangeIndex]);
       if (sweepAngle > 355) {
         //Draw arc shadow
         var shadowPosition = Offset(
@@ -199,6 +206,7 @@ class ProgressPainter extends CustomPainter {
     return sweepAngle != oldDelegate.sweepAngle;
   }
 
+  /// get color by and angle
   Color getColorAtAngle(double angle, List<Color> colors) {
     double totalAngle = sweepAngle > 360 ? sweepAngle : 360;
     double fraction = angle / totalAngle;

@@ -22,6 +22,7 @@ class CircularGradientCombineWidget extends StatefulWidget {
   final Curve curve;
   final double initAngle;
   final bool reverse;
+  final int maxDration;
 
   const CircularGradientCombineWidget({
     super.key,
@@ -40,6 +41,7 @@ class CircularGradientCombineWidget extends StatefulWidget {
     this.curve = Curves.easeInOutQuad,
     this.initAngle = 0,
     this.reverse = false,
+    this.maxDration = 0,
   });
 
   @override
@@ -86,6 +88,7 @@ class _CircularGradientCombineWidgetState
               ? widget.backgroundColors.last
               : widget.backgroundColors[index],
           reverse: widget.reverse,
+          maxDration: widget.maxDration,
         );
       }),
     );
