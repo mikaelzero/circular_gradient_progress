@@ -1,3 +1,8 @@
+## 1.1.9
+
+* fix some bug
+
+
 ## 1.1.8
 
 * mod duration type

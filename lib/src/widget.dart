@@ -6,15 +6,26 @@ import 'paint.dart';
 
 /// CircularGradientProgressWidget
 class CircularGradientProgressWidget extends StatefulWidget {
+  ///widget size
   final double size;
+
+  ///circle size
   final double strokeWidth;
+
+  ///need > 0 ,< 0 means no data
   final double sweepAngle;
+
+  /// default begin angle
   final double initAngle;
 
   ///The colors need to go from light to dark, otherwise the effect is weird.
   ///Receive multiple color arrays so that more colors are needed when reaching a certain angle.
   final List<Color> gradientColors;
+
+  /// color of when angle is zero
   final Color backgroundColor;
+
+  ///open animate
   final bool animate;
 
   /// If true, a smoother intermediate color will be automatically inserted between the two gradient colors.
@@ -34,7 +45,7 @@ class CircularGradientProgressWidget extends StatefulWidget {
   final Duration plusDuration;
 
   /// max duration
-  final Duration maxDration;
+  final Duration maxDuration;
 
   /// animation behavier
   final Curve curve;
@@ -59,7 +70,7 @@ class CircularGradientProgressWidget extends StatefulWidget {
     this.curve = Curves.easeInOutQuad,
     this.initAngle = 0,
     this.reverse = false,
-    this.maxDration = Duration.zero,
+    this.maxDuration = Duration.zero,
   });
 
   @override
@@ -113,8 +124,8 @@ class _CircularGradientProgressWidgetState extends State<CircularGradientProgres
       totalDuration += full360Intervals * widget.plusDuration.inMilliseconds;
     }
     if (widget.animate) {
-      if (widget.maxDration.inMilliseconds != 0 && totalDuration > widget.maxDration.inMilliseconds) {
-        _controller.duration = Duration(milliseconds: widget.maxDration.inMilliseconds);
+      if (widget.maxDuration.inMilliseconds != 0 && totalDuration > widget.maxDuration.inMilliseconds) {
+        _controller.duration = Duration(milliseconds: widget.maxDuration.inMilliseconds);
       } else {
         _controller.duration = Duration(milliseconds: totalDuration);
       }

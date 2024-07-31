@@ -64,7 +64,7 @@ class _PaintAppState extends State<PaintApp> {
                   CircularGradientCombineWidget(
                     size: 120,
                     duration: duration,
-                    sweepAngles: const [30, 70, 100],
+                    sweepAngles: const [30, 70, 100, 300, 20, 10, 10],
                     backgroundColors: backgroundColors,
                     gradientColors: gradientColors,
                   ),

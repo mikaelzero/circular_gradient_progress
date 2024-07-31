@@ -1,29 +1,58 @@
 import 'package:flutter/material.dart';
 import 'widget.dart';
 
+///CircularGradientCombineWidget multi CircularGradientProgressWidget
 class CircularGradientCombineWidget extends StatefulWidget {
+  ///widget size
   final double size;
+
+  ///list of each sweep angle
   final List<double> sweepAngles;
-  final bool animate;
+
+  ///List<Color> of each circular
   final List<List<Color>> gradientColors;
+
+  ///Background Color of each circular
   final List<Color> backgroundColors;
+
+  ///empty center circle size ratio by size
   final double centerCircleSizeRatio;
+
+  ///each gap of circular ratio by size
   final double gapRatio;
-  // If true, a smoother intermediate color will be automatically inserted between the two gradient colors.
+
+  /// default begin angle
+  final double initAngle;
+
+  ///open animate
+  final bool animate;
+
+  /// If true, a smoother intermediate color will be automatically inserted between the two gradient colors.
   final bool interpolatedColor;
-  // Set the percentage of the gradient color based on the two colors when inserting the intermediate gradient color
+
+  /// Set the percentage of the gradient color based on the two colors when inserting the intermediate gradient color
   final double interpolatedColorRatio;
-  //When the change reaches a certain percentage, the color will be the same as the last color,
+
+  /// When the change reaches a certain percentage, the color will be the same as the last color,
   //so it needs to be limited, otherwise a circular_gradient_progress with the same color will appear instead of a gradient color.
   final double maxInterpolatedColorRatio;
-  final Duration duration;
-  // This value represents how much animation time needs to be increased for each 360 degrees after exceeding 360 degrees.
-  final Duration plusDuration;
-  final Curve curve;
-  final double initAngle;
-  final bool reverse;
-  final Duration maxDration;
 
+  /// base duration
+  final Duration duration;
+
+  /// This value represents how much animation time needs to be increased for each 360 degrees after exceeding 360 degrees.
+  final Duration plusDuration;
+
+  /// max duration
+  final Duration maxDuration;
+
+  /// animation behavier
+  final Curve curve;
+
+  /// if true,be reverse
+  final bool reverse;
+
+  ///
   const CircularGradientCombineWidget({
     super.key,
     required this.size,
@@ -41,7 +70,7 @@ class CircularGradientCombineWidget extends StatefulWidget {
     this.curve = Curves.easeInOutQuad,
     this.initAngle = 0,
     this.reverse = false,
-    this.maxDration = Duration.zero,
+    this.maxDuration = Duration.zero,
   });
 
   @override
@@ -49,11 +78,6 @@ class CircularGradientCombineWidget extends StatefulWidget {
 }
 
 class _CircularGradientCombineWidgetState extends State<CircularGradientCombineWidget> with SingleTickerProviderStateMixin {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     final centerCircleSize = widget.size * widget.centerCircleSizeRatio;
@@ -74,13 +98,13 @@ class _CircularGradientCombineWidgetState extends State<CircularGradientCombineW
           curve: widget.curve,
           initAngle: widget.initAngle,
           interpolatedColor: widget.interpolatedColor,
-          gradientColors: widget.gradientColors[index],
-          sweepAngle: widget.sweepAngles[index],
+          gradientColors: index >= widget.gradientColors.length ? widget.gradientColors.last : widget.gradientColors[index],
+          sweepAngle: index >= widget.sweepAngles.length ? widget.sweepAngles.last : widget.sweepAngles[index],
           size: widget.size - strokeWidth * index - gap * index,
           strokeWidth: strokeWidth / 2,
           backgroundColor: index > widget.backgroundColors.length - 1 ? widget.backgroundColors.last : widget.backgroundColors[index],
           reverse: widget.reverse,
-          maxDration: widget.maxDration,
+          maxDuration: widget.maxDuration,
         );
       }),
     );

@@ -1,6 +1,6 @@
 name: circular_gradient_progress
 description: "A circular progress bar similar to Apple's Health app. You can set a single ring or multiple rings together, and it provides a default state and more custom properties."
-version: 1.1.8
+version: 1.1.9
 homepage: https://github.com/mikaelzero/circular_gradient_progress
 
 environment:
